@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Table</title>
+    <style>
+        /* Basic table styling */
+        table {
+            width: 60%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color:green;
+            font-weight: bold;
+            color: #333;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .total {
+            font-weight: bold;
+            background-color:rgb(199, 198, 198);
+            color: black;
+            text-align: left;
+        }
+
+        .total td {
+            text-align: left;
+        }
+
+        .total td:last-child {
+            text-align: center;
+        }
+        .description {
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 style="text-align:center;">Product Table</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Price per Unit</th>
+                <th>Description</th>
+                <th>Total Price</th>
+            </tr>
+        </thead>
+        <tbody id="productTable">
+            <tr>
+                <td class="product-name">Product 1</td>
+                <td class="quantity">2</td>
+                <td class="price">$10</td>
+                <td class="description">This is product 1</td>
+                <td class="total-price">$0</td>
+            </tr>
+            <tr>
+                <td class="product-name">Product 2</td>
+                <td class="quantity">3</td>
+                <td class="price">$20</td>
+                <td class="description">This is product 2</td>
+                <td class="total-price">$0</td>
+            </tr>
+            <tr class="total">
+                <td colspan="4">Sum</td>
+                <td id="sum-total-price">$0</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        // Get all the rows in the table body
+        const rows = document.querySelectorAll('#productTable tr');
+
+        let grandTotal = 0;
+
+        // Loop through each row to calculate the total price and sum
+        rows.forEach((row, index) => {
+            // Skip the last row (Sum row)
+            if (index < rows.length - 1) {
+                const quantity = parseInt(row.querySelector('.quantity').textContent);
+                const pricePerUnit = parseFloat(row.querySelector('.price').textContent.replace('$', ''));
+                const totalPrice = quantity * pricePerUnit;
+                
+                // Set the total price in the respective cell
+                row.querySelector('.total-price').textContent = `$${totalPrice.toFixed(2)}`;
+
+                // Add the total price to the grand total
+                grandTotal += totalPrice;
+            }
+        });
+
+        // Set the grand total in the "Sum" row
+        document.getElementById('sum-total-price').textContent = `$${grandTotal.toFixed(2)}`;
+    </script>
+
+</body>
+</html>
